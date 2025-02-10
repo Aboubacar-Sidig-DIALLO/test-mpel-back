@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Patch, NotFoundException, Delete } from '@nestjs/common';
 import { CreateProductDto, productSchema, UpdateProductDto } from 'src/dtos/product/product';
 import { PageNumberPipe } from 'src/midllewares/page-number-pipe.pipe';
-import { ProductService } from 'src/services/product/product/product.service';
+import { ProductService } from 'src/services/product/product.service';
 import { Product } from 'src/types/product.interface';
 import { ZodError } from 'zod';
 
