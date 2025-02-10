@@ -1,5 +1,6 @@
-import { BadRequestException, Body, Controller, Post, Logger } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { CreateProductDto, productSchema } from 'src/dtos/product/product';
+import { PageNumberPipe } from 'src/midllewares/page-number-pipe.pipe';
 import { ProductService } from 'src/services/product/product/product.service';
 import { Product } from 'src/types/product.interface';
 
@@ -8,6 +9,13 @@ export class ProductController {
     private readonly logger = new Logger(ProductController.name);
 
     constructor(private readonly productService: ProductService) { }
+
+    @Get()
+    async getAllProducts(@Query('page', PageNumberPipe) page: number = 1,
+                         @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,): Promise<{ totalPages: number; products: Product[] }> {
+        this.logger.log(`Fetching products for page ${page} with ${take} items per page`);
+        return await this.productService.getProducts(page, take);
+    }
 
     @Post()
     async createProduct(@Body() productDto: CreateProductDto): Promise<Product> {

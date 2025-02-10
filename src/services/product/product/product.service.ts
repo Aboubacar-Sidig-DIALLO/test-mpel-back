@@ -8,7 +8,6 @@ export class ProductService {
     constructor(private prisma: PrismaClient) { }
 
     async getProducts(page: number, take: number): Promise<{ totalPages: number; products: Product[] }> {
-        // const take = 10;
         const skip = (page - 1) * take;
 
         const totalProducts = await this.prisma.product.count();
