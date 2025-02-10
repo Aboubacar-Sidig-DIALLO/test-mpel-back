@@ -1,8 +1,9 @@
-import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
-import { CreateProductDto, productSchema } from 'src/dtos/product/product';
+import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Patch, NotFoundException } from '@nestjs/common';
+import { CreateProductDto, productSchema, UpdateProductDto } from 'src/dtos/product/product';
 import { PageNumberPipe } from 'src/midllewares/page-number-pipe.pipe';
 import { ProductService } from 'src/services/product/product/product.service';
 import { Product } from 'src/types/product.interface';
+import { ZodError } from 'zod';
 
 @Controller('product')
 export class ProductController {
@@ -27,5 +28,22 @@ export class ProductController {
         }
         this.logger.log('Product data validated successfully');
         return await this.productService.createProduct(productDto);
+    }
+
+    @Patch(':id')
+    async updateProduct(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateProductDto): Promise<Product> {
+        this.logger.log(`Attempting to update product with ID ${id}`);
+        try {
+            productSchema.parse(updateDto); // validation de données
+            this.logger.log('Product data validated successfully');
+            return await this.productService.updateProduct(id, updateDto);
+        } catch (exception) {
+            if (exception instanceof ZodError) {
+                this.logger.warn('Invalid product data received for update');
+                throw new BadRequestException("Invalide object");
+            }
+            this.logger.error(`Product with ID ${id} not found for update`);
+            throw new NotFoundException("Element introuvable");
+        }
     }
 }
