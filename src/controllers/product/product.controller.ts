@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Patch, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Patch, NotFoundException, Delete } from '@nestjs/common';
 import { CreateProductDto, productSchema, UpdateProductDto } from 'src/dtos/product/product';
 import { PageNumberPipe } from 'src/midllewares/page-number-pipe.pipe';
 import { ProductService } from 'src/services/product/product/product.service';
@@ -44,6 +44,17 @@ export class ProductController {
             }
             this.logger.error(`Product with ID ${id} not found for update`);
             throw new NotFoundException("Element introuvable");
+        }
+    }
+
+    @Delete(':id')
+    async deleteProduct(@Param('id', ParseIntPipe) id: number): Promise<Product> {
+        this.logger.log(`Attempting to delete product with ID ${id}`);
+        try {
+            return await this.productService.deleteProduct(id);
+        } catch (exception) {
+            this.logger.error(`Product with ID ${id} not found for deletion`);
+            throw new NotFoundException('Impossible de supprimer un element qui n\'existe pas');
         }
     }
 }
