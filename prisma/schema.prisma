@@ -12,3 +12,14 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String?  @db.Text @default("-")
+  price       Float    
+  stock       Int      @default(0)
+  imageUrl    String?  @db.Text @default("-")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
