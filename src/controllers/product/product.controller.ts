@@ -12,7 +12,7 @@ export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
     @Get()
-    async getAllProducts(@Query('page', PageNumberPipe) page: number = 1,
+    async getAllProducts(@Query('page', new DefaultValuePipe(1), PageNumberPipe) page: number,
                          @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,): Promise<{ totalPages: number; products: Product[] }> {
         this.logger.log(`Fetching products for page ${page} with ${take} items per page`);
         return await this.productService.getProducts(page, take);
