@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
 import { CreateProductDto, UpdateProductDto } from 'src/dtos/product/product';
 import { Product } from 'src/types/product.interface';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class ProductService {
-    constructor(private prisma: PrismaClient) { }
+    constructor(private prisma: PrismaService) { }
 
     async getProducts(page: number, take: number): Promise<{ totalPages: number; products: Product[] }> {
         const skip = (page - 1) * take;
