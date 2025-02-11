@@ -19,7 +19,7 @@ model Product {
   description String?  @db.Text @default("-")
   price       Float    
   stock       Int      @default(0)
-  imageUrl    String?  @db.Text @default("-")
+  imageUrl    String?  @db.Text @default("")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
