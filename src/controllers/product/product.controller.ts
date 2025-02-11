@@ -12,7 +12,7 @@ export class ProductController {
 
     constructor(private readonly productService: ProductService) { }
 
-    @Get()
+    @Get("list")
     async getAllProducts(@Query('page', new DefaultValuePipe(1), PageNumberPipe) page: number,
                          @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,): Promise<{ totalPages: number; products: Product[] }> {
         this.logger.log(`Fetching products for page ${page} with ${take} items per page`);
@@ -20,7 +20,7 @@ export class ProductController {
         return await this.productService.getProducts(page, take);
     }
 
-    @Post()
+    @Post("new")
     async createProduct(@Body() productDto: CreateProductDto): Promise<Product> {
         this.logger.log('Attempting to create a new product');
         const validatedData = productSchema.safeParse(productDto);
