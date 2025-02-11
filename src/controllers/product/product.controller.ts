@@ -1,5 +1,6 @@
-import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Patch, NotFoundException, Delete } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Logger, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Patch, NotFoundException, Delete, UseGuards } from '@nestjs/common';
 import { CreateProductDto, productSchema, UpdateProductDto } from 'src/dtos/product/product';
+import { AdminGuard } from 'src/midllewares/admin.guard';
 import { PageNumberPipe } from 'src/midllewares/page-number-pipe.pipe';
 import { ProductService } from 'src/services/product/product.service';
 import { Product } from 'src/types/product.interface';
@@ -31,6 +32,7 @@ export class ProductController {
         return await this.productService.createProduct(productDto);
     }
 
+    @UseGuards(AdminGuard) // seul un Admin peut modifier un produit
     @Patch(':id')
     async updateProduct(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateProductDto): Promise<Product> {
         this.logger.log(`Attempting to update product with ID ${id}`);
@@ -48,6 +50,7 @@ export class ProductController {
         }
     }
 
+    @UseGuards(AdminGuard) // seul un Admin peut modifier un produit
     @Delete(':id')
     async deleteProduct(@Param('id', ParseIntPipe) id: number): Promise<Product> {
         this.logger.log(`Attempting to delete product with ID ${id}`);
