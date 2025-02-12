@@ -16,7 +16,6 @@ export class ProductController {
     async getAllProducts(@Query('page', new DefaultValuePipe(1), PageNumberPipe) page: number,
                          @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number,): Promise<{ totalPages: number; products: Product[] }> {
         this.logger.log(`Fetching products for page ${page} with ${take} items per page`);
-        await new Promise(r => setTimeout(r, 2000))
         return await this.productService.getProducts(page, take);
     }
 
