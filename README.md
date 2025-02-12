@@ -19,11 +19,19 @@ Ce repository répresente le backend.
 2. **Installez les dépendances :**
     npm install ou avec votre gestionnaire de packet
 3. **Configurez les variables d'environnement de la base de donnée:**
-    Dans le fichier .env à la racine du projet : DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
-4. **Exécutez les migrations de la base de données :**
+    Créer le fichier .env à la racine du projet en définissant : **DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME**
+   par exemple :
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=postgres
+   DB_PASSWORD=12345
+   DB_NAME=test
+   DATABASE_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public"
+5. **Exécutez les migrations de la base de données :**
     npx prisma migrate dev
 ### Démarrage
   npm run start:dev
+  **Attention au numéro de port d'écoute, par défaut: 3001 et vous pouvez la changez dans le fichier main.ts s'il est occupé.**
 
 ### Endpoints disponibles
 
