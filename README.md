@@ -19,8 +19,8 @@ Ce repository répresente le backend.
 2. **Installez les dépendances :**
     npm install ou avec votre gestionnaire de packet
 3. **Configurez les variables d'environnement de la base de donnée:**
-    Créer le fichier .env à la racine du projet en définissant : **DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME**
-   par exemple :
+    Créer le fichier .env à la racine du projet en définissant : **DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME** et surtout **DATABASE_URL**.
+   par exemple : copié tout dans l'exemple et collé dans le fichier .env en remplacer les valeurs des variables **DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME** 
    DB_HOST=localhost
    DB_PORT=5432
    DB_USER=postgres
